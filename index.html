@@ -55,7 +55,7 @@
        ========================================================= */
     #hero-view { 
       position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 5vh; z-index: 10; 
-      transition: background 1.2s ease, opacity 0.5s; /* Smooth background color transition */
+      transition: background 1.2s ease, opacity 0.5s; 
       background: radial-gradient(circle at top right, var(--primary) 0%, var(--bg-main) 70%); 
     }
     #effects-canvas { position: absolute; inset: 0; z-index: -1; pointer-events: none; width: 100%; height: 100%; }
@@ -66,12 +66,13 @@
     .hero-title-main { font-size: 4rem; color: var(--text-main); font-style: italic; line-height: 1.1; margin-bottom: 25px; text-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     
     .hero-frame-container { flex: 1; display: flex; justify-content: flex-end; perspective: 1000px; pointer-events: auto; }
-    .hero-frame { width: 100%; max-width: 380px; aspect-ratio: 4/5; background: var(--bg-glass); border: 6px solid var(--bg-card); border-radius: 30px; padding: 10px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); transform: rotate(3deg); transition: transform 0.5s ease; position: relative; }
+    
+    /* MODIFIED: aspect-ratio: 1/1 for perfect squares */
+    .hero-frame { width: 100%; max-width: 380px; aspect-ratio: 1/1; background: var(--bg-glass); border: 6px solid var(--bg-card); border-radius: 30px; padding: 10px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); transform: rotate(3deg); transition: transform 0.5s ease; position: relative; }
     .hero-frame:hover { transform: rotate(0deg) scale(1.02); box-shadow: 0 40px 80px rgba(0,0,0,0.2); }
     .hero-image-wrap { width: 100%; height: 100%; border-radius: 20px; overflow: hidden; position: relative; background: #fff; }
     .hero-image { width: 100%; height: 100%; object-fit: cover; }
     
-    /* Prominent Arrows */
     .frame-arrows { position: absolute; top: 50%; left: -25px; right: -25px; display: flex; justify-content: space-between; transform: translateY(-50%); z-index: 10; pointer-events: none; }
     .frame-arrows button { pointer-events: auto; width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff; background: var(--primary-dark); color: #fff; font-size: 1.2rem; cursor: pointer; box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .frame-arrows button:hover { transform: scale(1.15); background: var(--text-main); border-color: var(--accent); }
@@ -101,9 +102,12 @@
     .product-card { background: var(--bg-card); border-radius: 15px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
     .badge-oos { position: absolute; top: 10px; right: 10px; background: #555; color: white; font-size: 0.7rem; font-weight: bold; padding: 4px 8px; border-radius: 5px; z-index: 2; }
     .badge-disc { position: absolute; top: 10px; left: 10px; background: #ff4d4f; color: white; font-size: 0.7rem; font-weight: bold; padding: 4px 8px; border-radius: 5px; z-index: 2; }
-    .p-img-wrap { width: 100%; height: 200px; border-radius: 10px; overflow: hidden; margin-bottom: 12px; position: relative; }
+    
+    /* MODIFIED: Perfect square aspect ratio for grid items */
+    .p-img-wrap { width: 100%; aspect-ratio: 1/1; height: auto; border-radius: 10px; overflow: hidden; margin-bottom: 12px; position: relative; }
     .p-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
     .product-card:hover .p-img-wrap img { transform: scale(1.08); }
+    
     .p-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
     .p-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; flex-grow: 1; }
     .p-price { color: var(--primary-dark); font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; }
@@ -169,7 +173,6 @@
     @media (max-width: 768px) {
       .logo { font-size: 2.2rem; }
       
-      /* Fixed Mobile Hero Layout */
       #hero-view { justify-content: flex-start; padding-top: 80px; gap: 3vh; }
       .hero-layout { flex-direction: column-reverse; justify-content: center; text-align: center; margin-top: 0; }
       .hero-text { padding-right: 0; margin-top: 20px; }
@@ -177,7 +180,6 @@
       .hero-frame-container { justify-content: center; width: 100%; }
       .hero-frame { max-width: 250px; transform: rotate(0deg); }
       
-      /* Mobile Arrows Adjusted */
       .frame-arrows { left: -15px; right: -15px; }
       .frame-arrows button { width: 40px; height: 40px; font-size: 1rem; border-width: 2px; }
 
@@ -186,7 +188,10 @@
       .nav-tile i { font-size: 1.2rem; }
       .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .p-actions { flex-direction: column; }
-      .p-img-wrap { height: 150px; }
+      
+      /* Mobile override for perfect squares */
+      .p-img-wrap { height: auto; aspect-ratio: 1/1; }
+      
       #mobile-bottom-bar { display: flex; }
       .back-btn { bottom: 80px; }
       #content-container { padding-bottom: 80px; }
@@ -512,7 +517,7 @@
     function initHeroSlider() {
       if(state.products.length === 0) {
         document.getElementById('hero-title-main').innerText = "Shop is Empty";
-        document.getElementById('hero-img').src = "https://via.placeholder.com/400x500?text=No+Products";
+        document.getElementById('hero-img').src = "https://via.placeholder.com/800x800?text=No+Products";
         return;
       }
       renderHeroSlide();
@@ -543,7 +548,6 @@
         imgEl.src = p.img;
         gsap.to(imgEl, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" });
         
-        // --- DYNAMIC BACKGROUND COLOR EXTRACTION ---
         const tempImg = new Image();
         tempImg.crossOrigin = "Anonymous";
         tempImg.onload = () => {
@@ -552,11 +556,9 @@
           const ctx = cvs.getContext('2d');
           ctx.drawImage(tempImg, 0, 0, 1, 1);
           const data = ctx.getImageData(0,0,1,1).data;
-          // Mix the extracted color with white (255) to make it a beautiful soft pastel
           const r = Math.round((data[0] + 255*2) / 3);
           const g = Math.round((data[1] + 255*2) / 3);
           const b = Math.round((data[2] + 255*2) / 3);
-          
           document.getElementById('hero-view').style.background = `radial-gradient(circle at top right, rgba(${r},${g},${b}, 0.9) 0%, var(--bg-main) 80%)`;
         };
         tempImg.src = p.img;
@@ -684,7 +686,7 @@
     }
 
     /* =========================================================
-       SECURE ADMIN & FREE IMAGE COMPRESSION TO REALTIME DB
+       SECURE ADMIN & SMART IMAGE SQUARING (COVER BLUR + CONTAIN)
        ========================================================= */
     function showAuthModal() { if(auth.currentUser) showAdminPanel(); else document.getElementById('auth-modal').style.display='flex'; }
     function adminLogin(e) { e.preventDefault(); auth.signInWithEmailAndPassword(document.getElementById('auth-email').value, document.getElementById('auth-pass').value).then(()=> { document.getElementById('auth-modal').style.display='none'; showAdminPanel(); }).catch(err=>showToast(err.message)); }
@@ -692,15 +694,34 @@
     function showAdminPanel() { document.getElementById('admin-overlay').style.display='block'; renderAdmin(); }
     function switchAdminTab(id) { document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('.admin-content-section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
 
+    // MODIFIED: Smart Blur-Box Image Processor (Creates perfect 800x800 square every time)
     function compressToBase64(file) {
       return new Promise((resolve) => {
         const r = new FileReader(); r.onload = e => {
           const img = new Image(); img.onload = () => {
             const cvs = document.createElement('canvas'), cx = cvs.getContext('2d');
-            let w=img.width, h=img.height, sz = Math.min(w,h), sx=(w-sz)/2, sy=(h-sz)/2;
-            cvs.width=600; cvs.height=750; 
-            cx.drawImage(img, sx, sy, sz, sz, 0, 0, 600, 750);
-            resolve(cvs.toDataURL('image/webp', 0.8)); 
+            const size = 800; // Final square size
+            cvs.width = size; cvs.height = size;
+            
+            // Step 1: Draw the heavily blurred background (Cover mode)
+            let scaleCover = Math.max(size / img.width, size / img.height);
+            let wCover = img.width * scaleCover;
+            let hCover = img.height * scaleCover;
+            cx.filter = 'blur(30px)'; // Deep blur effect
+            cx.drawImage(img, (size - wCover)/2, (size - hCover)/2, wCover, hCover);
+            cx.filter = 'none'; // Reset filter
+            
+            // Step 2: Add a subtle overlay so the foreground image stands out
+            cx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            cx.fillRect(0, 0, size, size);
+            
+            // Step 3: Draw the actual image perfectly centered (Contain mode)
+            let scaleContain = Math.min(size / img.width, size / img.height);
+            let wContain = img.width * scaleContain;
+            let hContain = img.height * scaleContain;
+            cx.drawImage(img, (size - wContain)/2, (size - hContain)/2, wContain, hContain);
+            
+            resolve(cvs.toDataURL('image/webp', 0.85)); 
           }; img.src = e.target.result;
         }; r.readAsDataURL(file);
       });
